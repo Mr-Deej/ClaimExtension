@@ -1,0 +1,46 @@
+no-arguments: '&cYou have to type in a player name.'
+unvalid-playername: '&c%target% is not a valid player name.'
+outside-claim: '&cPlease make sure you are standing inside your claim.'
+ban-self: '&cYou can not banish yourself.'
+ban-owner: '&cYou can not banish the owner of this claim.'
+protected: '&4%target% &cis protected and can not be banned from your claim.'
+no-access: '&cThis is not your claim or you do not have PermissionTrust.'
+banned: '&6%target% &ehas been banish from your claim!'
+banned-target: '&cYou have been banned from &4 %claimowner%''s &cclaim by &4%source%&c.'
+already-banned: '&cThis player is already banned from your claim.'
+unbanned: '&6%target% &ehas been unbanned from your claim!'
+unbanned-target: '&eYou have been unbanned from &6%claimowner%''s &eclaim by &6%source%&e.'
+not-banned: '&4%target% &cis not a valid player name or not banned at your claim.'
+unvalid-number: '&cType a valid number.'
+list-header: '&e-- === [ &6%claimowner%''s Claim - Banned Players &e] === --'
+list-empty: '&cThere are no banned players in this claim.'
+title-message: '&4BANNED'
+subtitle-message: '&cYou are banned from this claim'
+
+teleport:
+  teleport: '&eYou have successfully teleported to your claim with the id &6%claimid%'
+list:
+  header: '&e-- === [ &6Claimslist for %player% &e] === --'
+  no-claims: '&cYou do not have any claims yet.'
+  claimid: '&eClaimID:'
+  claim-name: '&eName:'
+  coordinate: '&eCoordinates:'
+  claimid-color: '&6'
+  claim-name-color: '&6'
+  coordinate-color: '&6'
+setname:
+  no-arguments: '&cYou must define claimID and a name.'
+  no-name: '&cPlease enter a valid name for your claim.'
+  set-name: '&eName for claimid &6%claimid% &ehas been set to &6%name%'
+setspawn:
+  outside-claim: '&cPlease stand inside your claim to set a new spawn location.'
+  no-owner: '&cYou are not the owner of this claim.'
+  set-spawn: '&eNew spawn location has been set for claimid &6%claimid% &eat location &6%coordinate% &ein world &6%world%&e.'
+cooldown:
+  cooldown: '&cPlease wait %time% seconds before you can teleport to your claim again.'
+warmup:
+  title: '&eDon''t move'
+  subtitle: '&6---%time%---'
+  cancelled: '&cTeleportation cancelled!'
+miscellaneous:
+  unvalid-claimid: '&cYou must enter a valid claimID.'
