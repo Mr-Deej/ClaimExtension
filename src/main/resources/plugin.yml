@@ -6,7 +6,7 @@ softdepend: [ GriefPrevention ]
 authors: [ MrDeej ]
 description: A GriefPrevention extension to kick and ban players from claims
 website: https://southhollow.net/
-prefix: BFC
+prefix: ClaimExtension
 commands:
   banfromclaim:
     description: Ban a player from your claim
