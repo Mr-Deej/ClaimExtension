@@ -38,9 +38,8 @@ public class bfcCommand implements CommandExecutor {
         @SuppressWarnings("deprecation")
         final OfflinePlayer bannedPlayer = Bukkit.getOfflinePlayer(args[0]);
         final String accessDenied = claim.allowGrantPermission(player);
-        boolean allowBan = false;
+        boolean allowBan = accessDenied == null;
 
-        if (accessDenied == null) { allowBan = true; }
         if (player.hasPermission("bfc.admin")) { allowBan = true; }
 
         if (!bannedPlayer.hasPlayedBefore()) {
@@ -67,7 +66,7 @@ public class bfcCommand implements CommandExecutor {
         } else {
             final String claimOwner = claim.getOwnerName();
 
-            if(setClaimData(player, claim.getID().toString(), bannedPlayer.getUniqueId().toString(), true)) {
+            if(setClaimData(player, claim.getID().toString(), bannedPlayer.getUniqueId().toString())) {
                 if(bannedPlayer.isOnline()) {
                     if(GriefPrevention.instance.dataStore.getClaimAt(bannedPlayer.getPlayer().getLocation(), true, claim) != null) {
                         if(GriefPrevention.instance.dataStore.getClaimAt(bannedPlayer.getPlayer().getLocation(), true, claim) == claim) {
@@ -96,10 +95,10 @@ public class bfcCommand implements CommandExecutor {
         return true;
     }
 
-    private boolean setClaimData(Player player, String claimID, String bannedUUID, boolean add) {
+    private boolean setClaimData(Player player, String claimID, String bannedUUID) {
         final ClaimData claimData = new ClaimData();
 
-        return claimData.setClaimData(player, claimID, bannedUUID, add);
+        return claimData.setClaimData(player, claimID, bannedUUID, true);
     }
 
 }

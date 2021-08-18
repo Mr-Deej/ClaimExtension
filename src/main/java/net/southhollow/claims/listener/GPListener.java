@@ -72,7 +72,7 @@ public class GPListener implements Listener {
                             player.teleport(safeLoc);
                         }
 
-                        if (e.getTo().getBlockX() == e.getFrom().getBlockX()) { particleHandler.drawCircle(1, true); }
+                        if(e.getTo().getBlockX() == e.getFrom().getBlockX()) { particleHandler.drawCircle(1, true); }
                         else { particleHandler.drawCircle(1, false); }
                     }
 

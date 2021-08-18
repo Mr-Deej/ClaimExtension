@@ -14,6 +14,7 @@ import net.southhollow.claims.config.Messages;
 import net.southhollow.claims.handler.CombatScheduler;
 import net.southhollow.claims.handler.MessageHandler;
 import net.southhollow.claims.listener.CombatMode;
+import net.southhollow.claims.listener.GPBoatListener;
 import net.southhollow.claims.listener.GPListener;
 import net.southhollow.claims.listener.PlayerListener;
 import net.southhollow.claims.runnable.Schedule;
@@ -52,6 +53,7 @@ public final class ClaimExtension extends JavaPlugin {
             this.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
             this.getCommand("banfromclaim").setExecutor(new bfcCommand());
             this.getCommand("unbanfromclaim").setExecutor(new ubfcCommand());
+            //banfromclaimlist error see issue #3
             this.getCommand("banfromclaimlist").setExecutor(new bfcListCommand());
             this.getCommand("gpteleportlist").setExecutor(new TPListCommand());
             this.getCommand("gpteleport").setExecutor(new TeleportCommand());
