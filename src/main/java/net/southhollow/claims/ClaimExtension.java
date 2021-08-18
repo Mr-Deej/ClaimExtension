@@ -59,7 +59,7 @@ public final class ClaimExtension extends JavaPlugin {
             this.getCommand("setclaimname").setExecutor(new SetClaimName());
 
         } else {
-            MessageHandler.sendConsole("&2[" + getDescription().getPrefix() + "] &cNo supported claimsystem was found.");
+            MessageHandler.sendConsole("&2[" + getDescription().getPrefix() + "] &cNo supported claim system was found.");
             MessageHandler.sendConsole("");
             Bukkit.getPluginManager().disablePlugin(this);
             return;

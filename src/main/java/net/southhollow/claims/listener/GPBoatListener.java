@@ -13,16 +13,18 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.vehicle.VehicleMoveEvent;
 
 import java.util.UUID;
 
-public class GPListener implements Listener {
+public class GPBoatListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
-    public void onPlayerEnterClaim(PlayerMoveEvent e) {
+    public void onPlayerBoatClaim(VehicleMoveEvent e) {
+
         Location locFrom = e.getFrom();
         Location locTo = e.getTo();
 
@@ -30,7 +32,14 @@ public class GPListener implements Listener {
             return;
         }
 
-        Player player = e.getPlayer();
+        Vehicle vehicle = e.getVehicle();
+        if (vehicle.getPassengers().isEmpty()) {
+            return;
+        }
+
+        //possibly a hacky solution to players bypassing claim bans with vehicles
+
+        Player player = (Player) vehicle.getPassengers();
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(locTo, true, null);
         ParticleHandler particleHandler = new ParticleHandler(e.getTo());
 
