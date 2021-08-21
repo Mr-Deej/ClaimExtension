@@ -37,14 +37,13 @@ public class SetClaimName implements CommandExecutor {
 
         for(final Claim claims : GriefPrevention.instance.dataStore.getPlayerData(uuid).getClaims()) {
             if(claims.getID().toString().equals(args[0])) {
-                if(args.length < 2) {
+                if (args.length < 2) {
                     MessageHandler.sendMessage(player, Messages.SETNAME_NONAME);
-                    return true;
                 } else {
                     storage.setName(claims.getID().toString(), args[1]);
                     MessageHandler.sendMessage(player, MessageHandler.placeholders(Messages.SETNAME_SETNAME, claims.getID().toString(), player.getName(), args[1], null), null, null);
-                    return true;
                 }
+                return true;
             }
         }
 

@@ -15,11 +15,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class TeleportCommand implements CommandExecutor {
-
-    private long claimId = 0;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -35,9 +34,10 @@ public class TeleportCommand implements CommandExecutor {
         final Cooldown cooldown = new Cooldown();
         final Warmup warmup = new Warmup();
 
+        long claimId;
         if(args.length != 0) {
             if(isNumber(args[0])) {
-                this.claimId = Long.parseLong(args[0]);
+                claimId = Long.parseLong(args[0]);
             } else {
                 MessageHandler.sendMessage(player, Messages.UNVALID_NUMBER);
                 return true;
@@ -50,7 +50,7 @@ public class TeleportCommand implements CommandExecutor {
         for(int i = 0; i < GriefPrevention.instance.dataStore.getPlayerData(uuid).getClaims().toArray().length; i++) {
             final Claim claims = (Claim) GriefPrevention.instance.dataStore.getPlayerData(uuid).getClaims().toArray()[i];
 
-            if(claims.getID() == this.claimId) { claim = claims; }
+            if(claims.getID() == claimId) { claim = claims; }
         }
 
         if(claim == null) {
@@ -63,7 +63,7 @@ public class TeleportCommand implements CommandExecutor {
 
         final double locX = (locMax.getX() + locMin.getX()) / 2;
         final double locZ = locMax.getZ();
-        final double locY = locMax.getWorld().getHighestBlockAt((int) locX, (int) locZ).getY();
+        final double locY = Objects.requireNonNull(locMax.getWorld()).getHighestBlockAt((int) locX, (int) locZ).getY();
         final World world = locMax.getWorld();
 
         if(storage.storedLocation(claim.getID().toString())) {

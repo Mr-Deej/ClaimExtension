@@ -31,7 +31,7 @@ public class TPListCommand implements CommandExecutor {
         final int maxClaims = GriefPrevention.instance.dataStore.getPlayerData(uuid).getClaims().size();
         final StorageHandler storage = new StorageHandler();
 
-        if(args.length != 0) {
+        if (args.length != 0) {
             if(isInt(args[0])) {
                 this.number = Integer.parseInt(args[0]);
                 this.countTo = 5 * number;
@@ -79,7 +79,6 @@ public class TPListCommand implements CommandExecutor {
                     break;
                 }
 
-                continue;
             }
         }
 

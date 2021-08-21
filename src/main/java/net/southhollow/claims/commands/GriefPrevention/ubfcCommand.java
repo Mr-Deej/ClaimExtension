@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ubfcCommand implements CommandExecutor {
@@ -42,7 +43,7 @@ public class ubfcCommand implements CommandExecutor {
         final String accessDenied = claim.allowGrantPermission(player);
         boolean allowBan = false;
 
-        if(accessDenied == null) { allowBan = true; }
+        if (accessDenied == null) { allowBan = true; }
         if(player.hasPermission("bfc.admin")) { allowBan = true; }
 
         OfflinePlayer bPlayer = null;
@@ -58,9 +59,9 @@ public class ubfcCommand implements CommandExecutor {
             if(listPlayers(claim.getID().toString()) != null) {
                 for(final String bp : listPlayers(claim.getID().toString())) {
                     final OfflinePlayer bannedPlayer = Bukkit.getOfflinePlayer(UUID.fromString(bp));
-                    if(bannedPlayer.getName().equalsIgnoreCase(args[0])) {
+                    if(Objects.requireNonNull(bannedPlayer.getName()).equalsIgnoreCase(args[0])) {
                         bPlayer = bannedPlayer;
-                        if(setClaimData(player, claimID, bp, false)) {
+                        if(setClaimData(player, claimID, bp)) {
                             MessageHandler.sendMessage(player, Messages.placeholders(Messages.UNBANNED, bannedPlayer.getName(), player.getDisplayName(), claimOwner));
                             if(bannedPlayer.isOnline()) {
                                 MessageHandler.sendMessage(bannedPlayer.getPlayer(), Messages.placeholders(Messages.UNBANNED_TARGET, bannedPlayer.getName(), player.getDisplayName(), claimOwner));
@@ -83,10 +84,10 @@ public class ubfcCommand implements CommandExecutor {
         return claimData.bannedPlayers(claimID);
     }
 
-    private boolean setClaimData(Player player, String claimID, String bannedUUID, boolean add) {
+    private boolean setClaimData(Player player, String claimID, String bannedUUID) {
         final ClaimData claimData = new ClaimData();
 
-        return claimData.setClaimData(player, claimID, bannedUUID, add);
+        return claimData.setClaimData(player, claimID, bannedUUID, false);
     }
 
 }

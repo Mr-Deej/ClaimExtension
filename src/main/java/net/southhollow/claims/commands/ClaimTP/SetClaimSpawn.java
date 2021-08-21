@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
+
 public class SetClaimSpawn implements CommandExecutor {
 
     @Override
@@ -25,9 +27,8 @@ public class SetClaimSpawn implements CommandExecutor {
         final StorageHandler storage = new StorageHandler();
         final Claim claim = GriefPrevention.instance.dataStore.getClaimAt(loc, true, null);
 
-        if(claim == null) {
+        if (claim == null) {
             MessageHandler.sendMessage(player, Messages.SETSPAWN_OUTSIDE);
-            return true;
         } else {
             if(!claim.getOwnerName().equals(player.getName())) {
                 MessageHandler.sendMessage(player, Messages.SETSPAWN_NOOWNER);
@@ -38,7 +39,7 @@ public class SetClaimSpawn implements CommandExecutor {
             final int locX = (int) loc.getX();
             final int locY = (int) loc.getY();
             final int locZ = (int) loc.getZ();
-            final String world = loc.getWorld().getName();
+            final String world = Objects.requireNonNull(loc.getWorld()).getName();
 
             storage.setLocation(claim.getID().toString(), loc);
 
@@ -46,7 +47,7 @@ public class SetClaimSpawn implements CommandExecutor {
 
             MessageHandler.sendMessage(player, MessageHandler.placeholders(Messages.SETSPAWN_SETSPAWN, claim.getID().toString(), player.getName(), null, locText), world, null);
 
-            return true;
         }
+        return true;
     }
 }
