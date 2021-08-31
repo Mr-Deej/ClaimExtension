@@ -1,10 +1,5 @@
+
 combatmode:
-  enabled: true
+  enabled: false
   time: 15
   timer-enabled: true
-cooldown:
-  enable: false
-  time: 30
-warmup:
-  enable: false
-  time: 3

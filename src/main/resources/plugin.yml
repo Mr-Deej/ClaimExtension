@@ -2,7 +2,7 @@ name: ClaimExtension
 version: ${project.version}
 main: net.southhollow.claims.ClaimExtension
 api-version: 1.16
-softdepend: [ GriefPrevention ]
+softdepend: [GriefPrevention]
 authors: [ MrDeej ]
 description: A GriefPrevention extension to kick and ban players from claims
 website: https://southhollow.net/
@@ -40,41 +40,6 @@ commands:
     permission: bfc.safespot
     permission-message: §cSorry, but you do not have permissions to do that.
     usage: /<command>
-  gpteleport:
-    description: Teleport to one of your claims.
-    aliases:
-      - gpt
-      - gptp
-    permission: gpteleport.teleport
-    permission-message: §cSorry, but you do not have permissions to do that.
-    usage: /<command> [claimid]
-    gpteleportlist:
-      description: Get a list of all your claims.
-      aliases:
-        - gptplist
-        - gptl
-        - gptlist
-      permission: gpteleport.list
-      permission-message: §cSorry, but you do not have permissions to do that.
-      usage: /<command> [page]
-    setclaimspawn:
-      description: Set new spawn for your claim.
-      aliases:
-        - gptpspawn
-        - scspawn
-        - gptspawn
-      permission: gpteleport.setspawn
-      permission-message: §cSorry, but you do not have permissions to do that.
-      usage: /<command>
-    setclaimname:
-      description: Set custom name for your claim.
-      aliases:
-        - gptpname
-        - gptname
-        - scname
-      permission: gpteleport.setname
-      permission-message: §cSorry, but you do not have permissions to do that.
-      usage: /<command> [name]
 permissions:
   bfc.admin:
     description: Give you access to everything
@@ -107,15 +72,3 @@ permissions:
   bfc.safespot:
     description: Set new safespot
     default: op
-  gpteleport.teleport:
-    description: Be able to use the command /gpteleport
-    default: op
-    gpteleport.list:
-      description: Be able to use the command /gpteleportlist
-      default: op
-    gpteleport.setspawn:
-      description: Be able to use the command /setclaimspawn
-      default: op
-    gpteleport.setname:
-      description: Be able to use the command /setclaimname
-      default: op

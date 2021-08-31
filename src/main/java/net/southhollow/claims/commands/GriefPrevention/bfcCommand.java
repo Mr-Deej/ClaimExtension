@@ -16,7 +16,7 @@ public class bfcCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if(!(sender instanceof Player)) {
             MessageHandler.sendConsole("&cThis command can only be used in-game.");
             return true;
         }
@@ -38,23 +38,24 @@ public class bfcCommand implements CommandExecutor {
         @SuppressWarnings("deprecation")
         final OfflinePlayer bannedPlayer = Bukkit.getOfflinePlayer(args[0]);
         final String accessDenied = claim.allowGrantPermission(player);
-        boolean allowBan = accessDenied == null;
+        boolean allowBan = false;
 
-        if (player.hasPermission("bfc.admin")) { allowBan = true; }
+        if(accessDenied == null) { allowBan = true; }
+        if(player.hasPermission("bfc.admin")) { allowBan = true; }
 
-        if (!bannedPlayer.hasPlayedBefore()) {
+        if(!bannedPlayer.hasPlayedBefore()) {
             MessageHandler.sendMessage(player, Messages.placeholders(Messages.UNVALID_PLAYERNAME, args[0], player.getDisplayName(), null));
             return true;
-        } else if (bannedPlayer == player) {
+        } else if(bannedPlayer == player) {
             MessageHandler.sendMessage(player, Messages.BAN_SELF);
             return true;
-        } else if (bannedPlayer.getName().equals(claim.getOwnerName())) {
+        } else if(bannedPlayer.getName().equals(claim.getOwnerName())) {
             MessageHandler.sendMessage(player, Messages.BAN_OWNER);
             return true;
         }
 
-        if (bannedPlayer.isOnline()) {
-            if (bannedPlayer.getPlayer().hasPermission("bfc.bypass")) {
+        if(bannedPlayer.isOnline()) {
+            if(bannedPlayer.getPlayer().hasPermission("bfc.bypass")) {
                 MessageHandler.sendMessage(player, Messages.placeholders(Messages.PROTECTED, bannedPlayer.getPlayer().getDisplayName(), null, null));
                 return true;
             }
@@ -66,7 +67,7 @@ public class bfcCommand implements CommandExecutor {
         } else {
             final String claimOwner = claim.getOwnerName();
 
-            if(setClaimData(player, claim.getID().toString(), bannedPlayer.getUniqueId().toString())) {
+            if(setClaimData(player, claim.getID().toString(), bannedPlayer.getUniqueId().toString(), true)) {
                 if(bannedPlayer.isOnline()) {
                     if(GriefPrevention.instance.dataStore.getClaimAt(bannedPlayer.getPlayer().getLocation(), true, claim) != null) {
                         if(GriefPrevention.instance.dataStore.getClaimAt(bannedPlayer.getPlayer().getLocation(), true, claim) == claim) {
@@ -77,7 +78,7 @@ public class bfcCommand implements CommandExecutor {
                             final Location tpLoc = new Location(world, x, y, z).add(0D, 1D, 0D);
 
                             if(tpLoc.getBlock().getType().equals(Material.AIR)) {
-                                if (Config.SAFE_LOCATION != null) {
+                                if(Config.SAFE_LOCATION != null) {
                                     bannedPlayer.getPlayer().teleport(Config.SAFE_LOCATION);
                                 } else { bannedPlayer.getPlayer().teleport(tpLoc.add(0D, 1D, 0D)); }
                             } else { bannedPlayer.getPlayer().teleport(tpLoc.add(0D, 1D, 0D)); }
@@ -95,10 +96,10 @@ public class bfcCommand implements CommandExecutor {
         return true;
     }
 
-    private boolean setClaimData(Player player, String claimID, String bannedUUID) {
+    private boolean setClaimData(Player player, String claimID, String bannedUUID, boolean add) {
         final ClaimData claimData = new ClaimData();
 
-        return claimData.setClaimData(player, claimID, bannedUUID, true);
+        return claimData.setClaimData(player, claimID, bannedUUID, add);
     }
 
 }
