@@ -1,7 +1,7 @@
 name: ClaimExtension
 version: ${project.version}
 main: net.southhollow.claims.ClaimExtension
-api-version: 1.16
+api-version: 1.17
 softdepend: [GriefPrevention]
 authors: [ MrDeej ]
 description: A GriefPrevention extension to kick and ban players from claims
