@@ -1,5 +1,6 @@
 package net.southhollow.claims.config;
 
+import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import net.southhollow.claims.ClaimExtension;
 import net.southhollow.claims.handler.MessageHandler;
@@ -50,6 +51,22 @@ public class ClaimData {
             cfg.set(prefix + "." + claimID, uuid);
             saveDatafile();
         }
+    }
+
+    public void banAll(String claimID) {
+        if(cfg.contains("claims-ban-all" + "." + claimID + ".ban-all")) {
+            if(cfg.getBoolean("claims-ban-all" + "." + claimID + ".ban-all")) {
+                cfg.set("claims-ban-all" + "." + claimID + ".ban-all", false);
+            } else { cfg.set("claims-ban-all" + "." + claimID + ".ban-all", true); }
+        } else { cfg.set("claims-ban-all" + "." + claimID + ".ban-all", true); }
+
+        saveDatafile();
+    }
+
+    public boolean isAllBanned(String claimID) {
+        if(cfg.contains("claims-ban-all" + "." + claimID + ".ban-all")) {
+            return cfg.getBoolean("claims-ban-all" + "." + claimID + ".ban-all");
+        } else { return false; }
     }
 
     private void removeData(String claimID, String bannedUUID) {
@@ -115,10 +132,9 @@ public class ClaimData {
     }
 
     public static void createSection() {
-        if(ClaimExtension.getInstance().getDataFile().getKeys(false).isEmpty()) {
-            ClaimExtension.getInstance().getDataFile().createSection("bfc_claim_data");
-            saveDatafile();
-        }
+        if(!ClaimExtension.getInstance().getDataFile().contains("bfc_claim_data")) { ClaimExtension.getInstance().getDataFile().createSection("bfc_claim_data"); }
+        if(!ClaimExtension.getInstance().getDataFile().contains("claims-ban-all")) { ClaimExtension.getInstance().getDataFile().createSection("claims-ban-all"); }
+        saveDatafile();
     }
 
     public static void cleanDatafile() {
@@ -132,6 +148,17 @@ public class ClaimData {
                     if(ClaimExtension.getInstance().getServer().getPluginManager().getPlugin("GriefPrevention") != null) {
                         if(GriefPrevention.instance.dataStore.getClaim(Long.parseLong(claimID)) == null) {
                             ClaimExtension.getInstance().getDataFile().set("bfc_claim_data." + claimID, null);
+                            clean = true;
+                        }
+                    }
+                }
+            }
+
+            if(!ClaimExtension.getInstance().getDataFile().getConfigurationSection("claims-ban-all").getKeys(false).isEmpty()) {
+                for(final String claimID : ClaimExtension.getInstance().getDataFile().getConfigurationSection("bfc_claim_data").getKeys(false)) {
+                    if(ClaimExtension.getInstance().getServer().getPluginManager().getPlugin("GriefPrevention") != null) {
+                        if(GriefPrevention.instance.dataStore.getClaim(Long.parseLong(claimID)) == null) {
+                            ClaimExtension.getInstance().getDataFile().set("claims-ban-all." + claimID, null);
                             clean = true;
                         }
                     }

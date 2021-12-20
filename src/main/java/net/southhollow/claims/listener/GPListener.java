@@ -21,6 +21,8 @@ import java.util.UUID;
 
 public class GPListener implements Listener {
 
+    final ClaimData claimData = new ClaimData();
+
     @EventHandler(ignoreCancelled = true)
     public void onPlayerEnterClaim(PlayerMoveEvent e) {
         Location locFrom = e.getFrom();
@@ -46,9 +48,9 @@ public class GPListener implements Listener {
             if(CombatMode.ATTACKER.containsKey(player.getUniqueId()))
                 hasAttacked = CombatMode.ATTACKER.get(player.getUniqueId()).equals(ownerUUID);
 
-            if (playerBanned(player, claim, claimID) && !hasAttacked) {
+            if((claimData.isAllBanned(claimID) || playerBanned(player, claimID)) && !hasAttacked && !hasTrust(player, claim)) {
                 if (claim.contains(locFrom, true, false)) {
-                    if (playerBanned(player, claim, claimID)) {
+                    if (playerBanned(player, claimID) || claimData.isAllBanned(claimID)) {
                         World world = claim.getGreaterBoundaryCorner().getWorld();
                         int x = claim.getGreaterBoundaryCorner().getBlockX();
                         int z = claim.getGreaterBoundaryCorner().getBlockZ();
@@ -72,8 +74,7 @@ public class GPListener implements Listener {
                             player.teleport(safeLoc);
                         }
 
-                        if(e.getTo().getBlockX() == e.getFrom().getBlockX()) { particleHandler.drawCircle(1, true); }
-                        else { particleHandler.drawCircle(1, false); }
+                        particleHandler.drawCircle(1, e.getTo().getBlockX() == e.getFrom().getBlockX());
                     }
 
                 } else {
@@ -84,8 +85,7 @@ public class GPListener implements Listener {
                         player.teleport(safeLoc);
                     }
 
-                    if(e.getTo().getBlockX() == e.getFrom().getBlockX()) { particleHandler.drawCircle(1, true); }
-                    else { particleHandler.drawCircle(1, false); }
+                    particleHandler.drawCircle(1, e.getTo().getBlockX() == e.getFrom().getBlockX());
                 }
 
                 if(!MessageHandler.spamMessageClaim.contains(player.getUniqueId().toString())) {
@@ -102,12 +102,12 @@ public class GPListener implements Listener {
 
     }
 
-    private boolean playerBanned(Player player, Claim claim, String claimID) {
+    private boolean playerBanned(Player player, String claimID) {
         final ClaimData claimData = new ClaimData();
-        if(claimData.checkClaim(claimID)) {
-            if(claimData.bannedPlayers(claimID) != null) {
-                for(final String bp : claimData.bannedPlayers(claimID)) {
-                    if(bp.equals(player.getUniqueId().toString())) {
+        if (claimData.checkClaim(claimID)) {
+            if (claimData.bannedPlayers(claimID) != null) {
+                for (final String bp : claimData.bannedPlayers(claimID)) {
+                    if (bp.equals(player.getUniqueId().toString())) {
                         return true;
                     }
                 }
@@ -115,5 +115,13 @@ public class GPListener implements Listener {
         }
 
         return false;
+    }
+
+    private boolean hasTrust(Player player, Claim claim) {
+        final String accessDenied = claim.allowGrantPermission(player);
+        final String buildDenied = claim.allowBuild(player, Material.DIRT);
+
+        if(accessDenied == null || buildDenied == null || player.getUniqueId().equals(claim.getOwnerID())) { return true; }
+        else { return false; }
     }
 }

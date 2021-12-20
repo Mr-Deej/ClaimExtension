@@ -6,15 +6,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 public class CombatScheduler extends BukkitRunnable {
 
+    private final HashMap<UUID, Long> TIME = new HashMap<>();
+
     @Override
     public void run() {
         if(CombatMode.TIME.isEmpty()) { return; }
+        this.TIME.putAll(CombatMode.TIME);
 
-        for(final UUID uuid : CombatMode.TIME.keySet()) {
+        for(final UUID uuid : this.TIME.keySet()) {
             final OfflinePlayer victim = Bukkit.getOfflinePlayer(uuid);
             final OfflinePlayer attacker = Bukkit.getOfflinePlayer(CombatMode.ATTACKER.get(uuid));
             final long time = CombatMode.TIME.get(uuid);
