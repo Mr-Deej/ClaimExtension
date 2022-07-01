@@ -7,6 +7,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 public class CombatScheduler extends BukkitRunnable {
@@ -36,8 +37,8 @@ public class CombatScheduler extends BukkitRunnable {
             }
             else {
                 if(Config.TIMER_ENABLED) {
-                    MessageHandler.sendAction(victim.getPlayer(), "&4&lVICTIM " + "== " + combatLeft + " SEC ==");
-                    MessageHandler.sendAction(attacker.getPlayer(), "&4&lATTACKER " + "== " + combatLeft + " SEC ==");
+                    MessageHandler.sendAction(Objects.requireNonNull(victim.getPlayer()), "&4&lVICTIM " + "== " + combatLeft + " SEC ==");
+                    MessageHandler.sendAction(Objects.requireNonNull(attacker.getPlayer()), "&4&lATTACKER " + "== " + combatLeft + " SEC ==");
                 }
 
             }
